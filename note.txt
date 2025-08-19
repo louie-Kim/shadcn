@@ -1,0 +1,5 @@
+slug 이름 [username] => [id] 로 변경
+
+You cannot use different slug names for the same dynamic path ('id' !== 'username') 에러 404
+
+.next 폴더 지우고 다시 시작하면 됨
