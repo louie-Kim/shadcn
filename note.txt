@@ -3,3 +3,30 @@ slug 이름 [username] => [id] 로 변경
 You cannot use different slug names for the same dynamic path ('id' !== 'username') 에러 404
 
 .next 폴더 지우고 다시 시작하면 됨
+
+
+-------------------------------------------------------
+
+const schema = z.object({
+  role: z.string(),
+});
+
+schema.parse({ role: "admin" });     // ✅ 통과
+schema.parse({ role: "hello" });     // ✅ 이것도 통과
+schema.parse({ role: "banana" });    // ✅ 이것도 통과
+
+
+string → 아무 문자열이나 가능
+
+
+
+const schema = z.object({
+  role: z.enum(["admin", "user", "guest"]),
+});
+
+schema.parse({ role: "admin" });   // ✅ 통과
+schema.parse({ role: "user" });    // ✅ 통과
+schema.parse({ role: "banana" });  // ❌ 에러 발생!
+
+
+enum → 정해진 값만 가능
