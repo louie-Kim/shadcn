@@ -277,19 +277,20 @@ const AddProduct = () => {
                                   checked={field.value?.includes(color)}
                                   onCheckedChange={(checked) => {
                                     const currentValues = field.value || [];
-
+                                    
+                                    alert(`Checked?? : ${checked}`); //
                                     alert(`field.value: ${field.value}`); //
                                     alert(`Current values: ${currentValues}`); //
-
                                     if (checked) {
+                                      alert("checked!!!!");
                                       field.onChange([...currentValues, color]);
                                     } else {
+                                      alert("removed!!!!");
                                       field.onChange(
                                         currentValues.filter((v) => v !== color)
                                       );
                                     }
-                                    alert(`after removed values: ${currentValues}`); //
-
+                                    alert(`All values: ${currentValues}`); //
                                   }}
                                 />
                                 <label
@@ -308,21 +309,29 @@ const AddProduct = () => {
                           </div>
                           {/* after choose color.. */}
                           {field.value && field.value.length > 0 && (
-                            
                             <div className="mt-8 space-y-4">
                               <p className="text-sm font-medium">
                                 Upload images for selected colors:
                               </p>
                               {field.value.map((color) => (
-                                <div className="flex items-center gap-2" key={color}>
+                                <div
+                                  className="flex items-center gap-2"
+                                  key={color}
+                                >
                                   <div
                                     className="w-2 h-2 rounded-full"
                                     style={{ backgroundColor: color }}
                                   />
                                   {/* min-w-[60px] : {color}글씨 공간확보 -> 인풋필드 일정한 길이 유지 */}
-                                  <span className="text-sm min-w-[60px]">{color}</span>
+                                  <span className="text-sm min-w-[60px]">
+                                    {color}
+                                  </span>
                                   {/* 이미지 파일만 입력가능 */}
-                                  <Input type="file" accept="image/*"/>
+                                  <Input
+                                    type="file"
+                                    accept="image/*"
+                                    placeholder="upload image files"
+                                  />
                                 </div>
                               ))}
                             </div>
