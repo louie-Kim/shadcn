@@ -80,6 +80,19 @@ const sizes = [
   "48",
 ] as const;
 
+// name="colors" → formSchema.colors와 연결됨 → useForm + zodResolver로 타입/검증 세팅됨 → 그 결과 render 안으로 field 객체가 내려옴
+
+// shape of field object
+/*
+      {
+        name: "colors",                 // 현재 폼 필드 이름
+        value: ["red", "blue"],         // 현재 선택된 값 (체크박스로 선택한 배열)
+        onChange: (newValue) => {...},  // 값 업데이트 함수
+        onBlur: () => {...},            // blur 이벤트 핸들러
+        ref: (instance) => {...},       // RHF가 DOM ref 연결할 때 사용
+      }
+    */
+
 // enum → 정해진 값만 가능
 const formSchema = z.object({
   name: z.string().min(1, { message: "Product name is required!" }),
@@ -93,7 +106,7 @@ const formSchema = z.object({
   sizes: z.array(z.enum(sizes)),
   colors: z.array(z.enum(colors)),
   // key는 colors 안의 값 중 하나, value는 string
-  // z.record( key , value(any string) ) : 객체
+  // z.record( key (colors 값들만) , value(any string) ) : 객체
   images: z.record(z.enum(colors), z.string()),
 });
 
@@ -166,7 +179,12 @@ const AddProduct = () => {
                     <FormItem>
                       <FormLabel>Price</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input
+                          type="number"
+                          min={1} // 0이나 음수 입력 방지
+                          {...field}
+                          value={field.value ?? 1} // 초기 값 보장 , null 병합 연산자(??)
+                        />
                       </FormControl>
                       <FormDescription>
                         Enter the price of the product.
@@ -257,6 +275,7 @@ const AddProduct = () => {
                     </FormItem>
                   )}
                 />
+                {/*   colors: z.array(z.enum(colors)), */}
                 <FormField
                   control={form.control}
                   name="colors"
@@ -268,7 +287,7 @@ const AddProduct = () => {
                           <div className="grid grid-cols-3 gap-4 my-2">
                             {colors.map((color) => (
                               <div
-                                className="flex  items-center gap-2"
+                                className="flex items-center gap-2"
                                 key={color}
                               >
                                 {/* 사용자가 직접체크 -> onCheckedChange 호출*/}
@@ -277,7 +296,7 @@ const AddProduct = () => {
                                   checked={field.value?.includes(color)}
                                   onCheckedChange={(checked) => {
                                     const currentValues = field.value || [];
-                                    
+
                                     alert(`Checked?? : ${checked}`); //
                                     alert(`field.value: ${field.value}`); //
                                     alert(`Current values: ${currentValues}`); //
