@@ -30,3 +30,25 @@ schema.parse({ role: "banana" });  // ❌ 에러 발생!
 
 
 enum → 정해진 값만 가능
+
+
+
+
+---------------------------------------------------------------
+
+
+ngrok
+
+설치 후 버전 확인
+ngrok version
+
+대시보드에서 Authtoken을 복사
+ngrok config add-authtoken <YOUR_AUTHTOKEN>
+
+pnpm run dev
+
+실행
+ngrok http 3000
+
+로컬 서버가 HTTPS 환경으로 접근
+Forwarding    https://abcd-12-34-56-78.ngrok-free.app -> http://localhost:3000
